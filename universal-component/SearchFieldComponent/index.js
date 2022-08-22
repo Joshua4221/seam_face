@@ -4,15 +4,15 @@ import { withTheme } from "styled-components";
 
 const SearchField = ({ theme, addon, placeholder, width }) => {
   return (
-    <SearchfieldDiv>
+    <SearchfieldDiv Color={theme}>
       <InputDiv Color={theme} view={addon}>
+        <FaSearch className={"searchicons"} />
         <InputF
-          width={width}
+          // width={width}
           Color={theme}
           view={addon}
           placeholder={placeholder}
         />
-        <FaSearch />
       </InputDiv>
     </SearchfieldDiv>
   );

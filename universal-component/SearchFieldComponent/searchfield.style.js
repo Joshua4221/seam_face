@@ -7,10 +7,14 @@ export const SearchfieldDiv = styled.div`
     border: 1px solid "#17212F";
     padding: 5px 10px;
   }
+
+  .searchicons {
+    color: ${({ Color }) => Color.SecondaryColor};
+  }
 `;
 
 export const InputF = styled.input`
-  color: ${({ Color }) => (Color.textColor ? Color.textColor : "#fff")};
+  color: ${({ Color }) => Color.SecondaryColor};
   width: 95%;
   width: ${({ view }) => (view === "addon" ? "95%" : "450px")};
   background-color: transparent;
@@ -23,13 +27,11 @@ export const InputF = styled.input`
 
 export const InputDiv = styled.div`
   border-radius: 8px;
-  /* width: 97%; */
-  width: ${({ width }) => (width ? width : "250px")};
+  width: 100%;
   display: flex;
   align-items: center;
   padding: 0px 10px;
-  border: 1px solid
-    ${({ Color }) => (Color.supplementary ? Color.supplementary : "#17212F")};
+  border: 1px solid ${({ Color }) => Color.SecondaryColor};
 
   @media (max-width: 414px) {
     width: 300px;

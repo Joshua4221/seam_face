@@ -1,22 +1,33 @@
 import Link from "next/link";
 import React from "react";
+import { withTheme } from "styled-components";
+import { DropDownDiv } from "./dropdown.style";
 
-const DropDownLink = ({ dropdownLinkArray }) => {
+const DropDownLink = ({
+  dropdownLinkArray,
+  details,
+  theme,
+  handleDropDownReturn,
+}) => {
   return (
-    <div>
+    <DropDownDiv color={theme} details={details}>
       {dropdownLinkArray.map((item, key) => (
-        <div key={key}>
+        <div
+          key={key}
+          className={`${item.classbody}`}
+          onClick={handleDropDownReturn}
+        >
           <Link href={item.link}>
             <a>
-              <div>
+              <div className={`${item.classname}`}>
                 <p>{item.linktext}</p>
               </div>
             </a>
           </Link>
         </div>
       ))}
-    </div>
+    </DropDownDiv>
   );
 };
 
-export default DropDownLink;
+export default withTheme(DropDownLink);

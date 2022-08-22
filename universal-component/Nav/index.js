@@ -1,18 +1,42 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useCallback, useState } from "react";
+import { withTheme } from "styled-components";
 import DropDownLink from "../DropDownLink";
 import { NavDiv } from "./nav.style";
+import { MdClose } from "react-icons/md";
 
-const Nav = ({ navArray }) => {
+const Nav = ({ navArray, theme }) => {
+  const [search, setSearch] = useState();
+  const [dropDown, setDropDown] = useState(false);
+
+  const HandleSearch = useCallback(() => {
+    setSearch(!search);
+  }, [search]);
+
+  const HandleDropDown = useCallback(() => {
+    setDropDown(!dropDown);
+  }, [dropDown]);
+
+  const HandleDropDownReturn = useCallback(() => {
+    setDropDown(false);
+  }, []);
+
   return (
-    <NavDiv>
+    <NavDiv color={theme} dropdown={dropDown}>
       {navArray.map((item, key) => (
-        <div key={key}>
+        <div key={key} className={`${item.classmain}`}>
           {item.section.map((item, key) => (
-            <div key={key}>
+            <div
+              key={key}
+              className={`${item.classbody}`}
+              onClick={() => {
+                item.details === "searchicon" && HandleSearch();
+                item.details === "hambuggger" && HandleDropDown();
+              }}
+            >
               {item.image ? (
-                <div>
+                <div className={`${item.classname}`}>
                   <Image
                     src={item.image}
                     alt={""}
@@ -21,21 +45,33 @@ const Nav = ({ navArray }) => {
                     priority
                     objectFit="cover"
                     layout="responsive"
+                    className={`${item.classitem}`}
                   />
                 </div>
               ) : item.icon ? (
-                <div>
-                  <item.icon />
+                <div className={`${item.classname}`}>
+                  {search && item.details === "searchicon" ? (
+                    <MdClose className="thirdlayoutitem" />
+                  ) : (
+                    <item.icon className={`${item.classitem}`} />
+                  )}
                 </div>
               ) : item.component ? (
                 <div>
-                  <item.component />
+                  {search && (
+                    <div className={`${item.classmain}`}>
+                      <item.component className={`${item.classitem}`} />
+                    </div>
+                  )}
                 </div>
               ) : item.link ? (
-                <div>
+                <div
+                  className={`${item.classname}`}
+                  onClick={HandleDropDownReturn}
+                >
                   <Link href={item.link}>
                     <a>
-                      <div>
+                      <div className={`${item.classitem}`}>
                         <p>{item.linktext}</p>
                       </div>
                     </a>
@@ -43,11 +79,17 @@ const Nav = ({ navArray }) => {
                 </div>
               ) : (
                 item.dropdown && (
-                  <div>
-                    <div>
+                  <div className={`${item.classname}`}>
+                    <div className={`${item.classitem}`}>
                       <p>{item.dropdown}</p>
                     </div>
-                    <DropDownLink dropdownLinkArray={item.dropdownlinks} />
+                    <div className={`${item.itemL}`}>
+                      <DropDownLink
+                        details={item.details}
+                        dropdownLinkArray={item.dropdownlinks}
+                        handleDropDownReturn={HandleDropDownReturn}
+                      />
+                    </div>
                   </div>
                 )
               )}
@@ -59,4 +101,4 @@ const Nav = ({ navArray }) => {
   );
 };
 
-export default Nav;
+export default withTheme(Nav);
